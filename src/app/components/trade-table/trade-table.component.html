@@ -1,0 +1,76 @@
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary" class="flex">
+    <!--  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">-->
+    <!--    <mat-icon>menu</mat-icon>-->
+    <!--  </button>-->
+    <span class="flex-auto">Stock trade</span>
+    <!--  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">-->
+    <!--    <mat-icon>favorite</mat-icon>-->
+    <!--  </button>-->
+    <button mat-icon-button (click)="openDialog()" matTooltip="Add trade">
+      <mat-icon fontIcon="add"></mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <table mat-table [dataSource]="dataSource" fixedLayout>
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+
+    <!-- Entry price Column -->
+    <ng-container matColumnDef="entryPrice">
+      <th mat-header-cell *matHeaderCellDef>Entry price</th>
+      <td mat-cell *matCellDef="let element">{{ element.entryPrice }}</td>
+    </ng-container>
+
+    <!-- Amount Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+    </ng-container>
+
+    <!-- Entry date Column -->
+    <ng-container matColumnDef="entryDate">
+      <th mat-header-cell *matHeaderCellDef>Entry date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.entryDate | date : "short" }}
+      </td>
+    </ng-container>
+
+    <!-- Exit price Column -->
+    <ng-container matColumnDef="exitPrice">
+      <th mat-header-cell *matHeaderCellDef>Exit price</th>
+      <td mat-cell *matCellDef="let element">{{ element.exitPrice }}</td>
+    </ng-container>
+
+    <!-- Exit date Column -->
+    <ng-container matColumnDef="exitDate">
+      <th mat-header-cell *matHeaderCellDef>Exit date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.exitDate | date : "short" }}
+      </td>
+    </ng-container>
+
+    <!-- Edit Column -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          (click)="openEditDialog(element)"
+          matTooltip="Edit trade"
+        >
+          <mat-icon fontIcon="edit"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

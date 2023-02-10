@@ -1,0 +1,81 @@
+<div class="flex flex-col flex-auto items-center sm:justify-center min-w-0">
+  <div
+    class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card"
+  >
+    <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+      <div class="inline-flex items-center w-full mt-1.5">
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight leading-tight">
+          Trading
+        </div>
+      </div>
+
+      <!-- form -->
+      <form class="mt-8" [formGroup]="form">
+        <!-- price field -->
+        <mat-form-field class="w-full">
+          <mat-label>Entry Price</mat-label>
+          <input id="entryPrice" matInput formControlName="entryPrice" />
+          <mat-error></mat-error>
+        </mat-form-field>
+
+        <!-- amount field -->
+        <mat-form-field class="w-full">
+          <mat-label>Amount</mat-label>
+          <input id="amount" matInput formControlName="amount" />
+          <mat-error></mat-error>
+        </mat-form-field>
+
+        <!-- Entry date field -->
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Entry date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerEntryDate"
+            formControlName="entryDate"
+          />
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerEntryDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerEntryDate></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Exit price field -->
+        <mat-form-field class="w-full">
+          <mat-label>Exit Price</mat-label>
+          <input id="exitPrice" matInput formControlName="exitPrice" />
+          <mat-error></mat-error>
+        </mat-form-field>
+
+        <!-- Exit date field -->
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Exit date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerExitDate"
+            formControlName="exitDate"
+          />
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="pickerExitDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerExitDate></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Submit button -->
+        <button
+          class="fuse-mat-button-large w-full mt-6"
+          mat-flat-button
+          color="primary"
+          [disabled]="form.invalid || !dateRangeValidator"
+          [mat-dialog-close]="value"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
