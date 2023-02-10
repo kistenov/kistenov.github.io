@@ -77,8 +77,6 @@ export class LineChartComponent implements OnChanges {
       tooltip: {
         trigger: "axis",
         formatter: (params: any) => {
-          console.log(params);
-
           params = params[0];
           const date = new Date(params.name);
           return (
