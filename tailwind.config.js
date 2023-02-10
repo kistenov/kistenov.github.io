@@ -1,10 +1,16 @@
+const colors = require("tailwindcss/colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{html,ts}",
-  ],
+  content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        green: colors.green,
+        red: colors.red,
+        orange: colors.orange,
+      },
+    },
   },
   plugins: [],
-}
+};

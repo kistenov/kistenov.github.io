@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+  {{ data.content }}
+</mat-dialog-content>
+<mat-dialog-actions class="justify-end">
+  <button mat-button [matDialogClose]="false" cdkFocusInitial>Cancel</button>
+  <button mat-button [matDialogClose]="true" color="warn">
+    {{ data.okText ?? "OK" }}
+  </button>
+</mat-dialog-actions>

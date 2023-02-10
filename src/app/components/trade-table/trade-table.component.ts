@@ -1,16 +1,34 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { PeriodicElement } from "@app/types";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from "@angular/core";
+import { ConfirmDialogData, PeriodicElement } from "@app/types";
 import { MatDialog } from "@angular/material/dialog";
 import { TradeFormComponent } from "@app/components";
-import { faker } from "@faker-js/faker";
 import { filter } from "rxjs";
+import { ConfirmDialogsComponent } from "../confirm/confirm-dialogs.component";
 
 @Component({
   selector: "app-trade-table",
   templateUrl: "./trade-table.component.html",
   styleUrls: ["./trade-table.component.scss"],
 })
-export class TradeTableComponent implements OnInit {
+export class TradeTableComponent {
+  @Input()
+  public data: PeriodicElement[] = [];
+
+  @Output()
+  public itemCreated = new EventEmitter<PeriodicElement>();
+
+  @Output()
+  public itemChanged = new EventEmitter<PeriodicElement>();
+
+  @Output()
+  public itemDeleted = new EventEmitter<PeriodicElement>();
+
   public displayedColumns: string[] = [
     "position",
     "entryPrice",
@@ -18,22 +36,14 @@ export class TradeTableComponent implements OnInit {
     "entryDate",
     "exitPrice",
     "exitDate",
-    "edit",
+    "profitLoss",
+    "actions",
   ];
-  public dataSource: PeriodicElement[] = [];
 
   public constructor(
     public dialog: MatDialog,
     protected changeDetectorRef: ChangeDetectorRef
   ) {}
-
-  public ngOnInit(): void {
-    Array.from({ length: 10 }).forEach(() => {
-      this.dataSource.push(this.generateRow());
-    });
-
-    this.changeDetectorRef.markForCheck();
-  }
 
   public openDialog(): void {
     this.dialog
@@ -45,14 +55,7 @@ export class TradeTableComponent implements OnInit {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe((data) => {
-        this.dataSource = [
-          ...this.dataSource,
-          {
-            ...this.generateRow(),
-            ...data,
-          },
-        ];
-        this.changeDetectorRef.detectChanges();
+        this.itemCreated.emit(data);
       });
   }
 
@@ -64,24 +67,26 @@ export class TradeTableComponent implements OnInit {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe((data) => {
-        this.dataSource = [
-          ...this.dataSource.map((item) => {
-            return item.id === data.id ? data : item;
-          }),
-        ];
-        this.changeDetectorRef.detectChanges();
+        this.itemChanged.emit(data);
       });
   }
 
-  protected generateRow(): PeriodicElement {
-    return {
-      position: this.dataSource.length + 1,
-      entryPrice: faker.datatype.number(),
-      amount: faker.datatype.number(),
-      entryDate: faker.date.past(),
-      exitPrice: faker.datatype.number(),
-      exitDate: faker.date.past(),
-      id: faker.datatype.uuid(),
-    };
+  public deleteRow(data: PeriodicElement): void {
+    this.dialog
+      .open<ConfirmDialogsComponent, ConfirmDialogData, boolean>(
+        ConfirmDialogsComponent,
+        {
+          data: {
+            title: "Delete trade",
+            content: "Are you sure you want to delete this trade?",
+            okText: "Delete",
+          },
+        }
+      )
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.itemDeleted.emit(data);
+      });
   }
 }

@@ -1,10 +1,16 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {LayoutComponent, LineChartComponent, TradeFormComponent, TradeTableComponent} from "@app/components";
-import {MaterialModule} from "@app/material.module";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgxEchartsModule} from "ngx-echarts";
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { NoopAnimationsModule } from "@angular/platform-browser/animations";
+import {
+  LayoutComponent,
+  LineChartComponent,
+  TradeFormComponent,
+  TradeTableComponent,
+} from "@app/components";
+import { MaterialModule } from "@app/material.module";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxEchartsModule } from "ngx-echarts";
+import { ConfirmDialogsComponent } from "./components/confirm/confirm-dialogs.component";
 
 @NgModule({
   declarations: [
@@ -12,6 +18,7 @@ import {NgxEchartsModule} from "ngx-echarts";
     TradeTableComponent,
     TradeFormComponent,
     LineChartComponent,
+    ConfirmDialogsComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,11 +27,10 @@ import {NgxEchartsModule} from "ngx-echarts";
     FormsModule,
     ReactiveFormsModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
+      echarts: () => import("echarts"),
     }),
   ],
   providers: [],
-  bootstrap: [LayoutComponent]
+  bootstrap: [LayoutComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

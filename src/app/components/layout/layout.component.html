@@ -1,10 +1,17 @@
 <div class="flex flex-col flex-auto w-full space-y-10 p-10">
-
   <div>
-    <app-line-chart/>
+    <app-line-chart
+      [dataSource]="dataSource"
+      [initBalance]="initBalance"
+    ></app-line-chart>
   </div>
 
   <div>
-    <app-trade-table/>
+    <app-trade-table
+      [data]="dataSource"
+      (itemCreated)="onItemCreated($event)"
+      (itemChanged)="onItemChanged($event)"
+      (itemDeleted)="onItemDeleted($event)"
+    ></app-trade-table>
   </div>
 </div>
