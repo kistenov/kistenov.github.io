@@ -11,10 +11,31 @@ import { dateRangeValidator } from "@app/validators";
 })
 export class TradeFormComponent implements OnInit {
   public form: FormGroup = this.formBuilder.group({
-    entryPrice: ["", [Validators.required, Validators.min(1)]],
+    entryPrice: [
+      "",
+      [
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern("^[0-9]+([.][0-9]+)?$"),
+      ],
+    ],
     entryDate: ["", Validators.required],
-    amount: ["", [Validators.required, Validators.min(1)]],
-    exitPrice: ["", [Validators.required, Validators.min(1)]],
+    amount: [
+      "",
+      [
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern("^[0-9]+([.][0-9]+)?$"),
+      ],
+    ],
+    exitPrice: [
+      "",
+      [
+        Validators.required,
+        Validators.min(1),
+        Validators.pattern("^[0-9]+([.][0-9]+)?$"),
+      ],
+    ],
     exitDate: ["", [Validators.required, dateRangeValidator("entryDate")]],
   });
 

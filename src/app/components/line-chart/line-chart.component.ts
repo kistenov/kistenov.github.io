@@ -7,7 +7,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from "@angular/core";
-import { ChartAccumulator, chartData, PeriodicElement } from "@app/types";
+import { ChartAccumulator, ChartItem, PeriodicElement } from "@app/types";
 import { EChartsOption } from "echarts";
 
 @Component({
@@ -25,7 +25,7 @@ export class LineChartComponent implements OnChanges {
   public initBalance: number = 0;
 
   public options!: EChartsOption;
-  private chartData!: chartData[];
+  private chartData!: ChartItem[];
 
   public constructor(
     protected changeDetectorRef: ChangeDetectorRef,

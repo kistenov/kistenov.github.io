@@ -45,7 +45,7 @@ export class TradeTableComponent {
     protected changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  public openDialog(): void {
+  public openCreateDialog(): void {
     this.dialog
       .open(TradeFormComponent, {
         data: {
@@ -71,7 +71,7 @@ export class TradeTableComponent {
       });
   }
 
-  public deleteRow(data: PeriodicElement): void {
+  public openDeleteDialog(data: PeriodicElement): void {
     this.dialog
       .open<ConfirmDialogsComponent, ConfirmDialogData, boolean>(
         ConfirmDialogsComponent,

@@ -14,8 +14,3 @@ export interface ConfirmDialogData {
   content: string;
   okText?: string;
 }
-
-export interface chartData {
-  name: string;
-  value: [string, number];
-}

@@ -1,23 +1,23 @@
-import { DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { chartData, PeriodicElement } from "@app/types";
+import { PeriodicElement } from "@app/types";
 import { faker } from "@faker-js/faker";
 
 @Component({
   selector: "app-layout",
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.scss"],
-  providers: [DatePipe],
 })
 export class LayoutComponent implements OnInit {
   public dataSource: PeriodicElement[] = [];
   public initBalance = faker.datatype.number({ min: 1500, max: 2000 });
-  public constructor(public dialog: MatDialog, private datePipe: DatePipe) {}
+
+  public constructor(public dialog: MatDialog) {}
 
   public ngOnInit(): void {
     Array.from({ length: 10 }).forEach(() => {
       this.dataSource.push(this.generateRow());
+      this.sortData();
     });
   }
 
@@ -26,10 +26,11 @@ export class LayoutComponent implements OnInit {
       ...this.dataSource,
       {
         ...data,
-        position: this.dataSource.length + 1,
+        id: faker.datatype.uuid(),
         profitLoss: this.calculateProfitLoss(data),
       },
     ];
+    this.sortData();
   }
 
   public onItemChanged(data: PeriodicElement): void {
@@ -49,22 +50,30 @@ export class LayoutComponent implements OnInit {
         return item;
       }),
     ];
-  }
-  public onItemDeleted(data: PeriodicElement) {
-    const filteredArray = this.dataSource
-      .filter((item) => {
-        return !(data.id === item.id);
-      })
-      .map((item, index) => {
-        return {
-          ...item,
-          position: index + 1,
-        };
-      });
-    this.dataSource = filteredArray;
+    this.sortData();
   }
 
-  public onDataUpdate(data: PeriodicElement) {}
+  public onItemDeleted(data: PeriodicElement): void {
+    const filteredArray = this.dataSource.filter((item) => {
+      return !(data.id === item.id);
+    });
+    this.dataSource = filteredArray;
+    this.sortData();
+  }
+
+  private sortData(): void {
+    const sortedData = [
+      ...this.dataSource.sort((a, b) => {
+        return b.exitDate.getTime() - a.exitDate.getTime();
+      }),
+    ].map((item, index) => {
+      return {
+        ...item,
+        position: index + 1,
+      };
+    });
+    this.dataSource = sortedData;
+  }
 
   protected generateRow(): PeriodicElement {
     const entryDate = faker.date.past();
@@ -84,6 +93,9 @@ export class LayoutComponent implements OnInit {
   }
 
   private calculateProfitLoss(trade: PeriodicElement): number {
-    return (trade.exitPrice - trade.entryPrice) * trade.amount;
+    return (
+      Math.round((trade.exitPrice - trade.entryPrice) * trade.amount * 100) /
+      100
+    );
   }
 }
